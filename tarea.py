@@ -37,6 +37,10 @@ def genPassword():
     # Si el usuario marcó Números (var_nums es 1)
     if var_nums.get() == 1:
         caracteres += string.digits
+    
+    #Si el usuario marco Especiales (var_esp es 1)
+    if var_esp.get() == 1:
+        caracteres += string.punctuation
         
     # Generamos una contraseña de 12 caracteres al azar
     nueva_password = "".join(random.choice(caracteres) for i in range(largo_elegido))
@@ -55,34 +59,39 @@ titulo = tk.Label(ventana, text = "Evaluador de Seguridad", font = ("Arial", 14,
 titulo.grid(row = 0, column = 0, pady = 10)
 
 # 2. Entrada de texto (Entry)
-entrada = tk.Entry(ventana, width = 20)
+entrada = tk.Entry(ventana, width = 35)
 entrada.grid(row = 1, column = 0, pady = 5)
 
 # 3. Botón (Button)
 boton_evaluar = tk.Button(ventana, text = "Evaluar Contraseña", command = checkPassword)
-boton_evaluar.grid(row = 2, column = 0, pady = 10)
+boton_evaluar.grid(row = 1, column = 1)
+boton_generar = tk.Button(ventana, text = "Generar Contraseña", command = genPassword)
+boton_generar.grid(row = 2, column = 1)
 
 # Creamos las variables para guardar los estados
 var_mayus = tk.IntVar()
 var_nums = tk.IntVar()
+var_esp = tk.IntVar()
 
 # Creamos los cuadritos de selección (Checkbuttons)
-check_mayus = tk.Checkbutton(ventana, text="Incluir Mayúsculas", variable=var_mayus)
-check_nums = tk.Checkbutton(ventana, text="Incluir Números", variable=var_nums)
+check_mayus = tk.Checkbutton(ventana, text= "Incluir Mayúsculas", variable = var_mayus)
+check_nums = tk.Checkbutton(ventana, text= "Incluir Números", variable = var_nums)
+check_esp = tk.Checkbutton(ventana, text = "Incluir Caracteres especiales", variable = var_esp)
 
 # Los acomodamos en el grid
-check_mayus.grid(row=3, column=0, sticky="w") # "w" de West para que se alineen a la izquierda
-check_nums.grid(row=4, column=0, sticky="w")
+check_mayus.grid(row = 3, column = 0, sticky = "w") # "w" de West para que se alineen a la izquierda
+check_nums.grid(row = 4, column = 0, sticky = "w")
+check_esp.grid(row = 5, column = 0, sticky = "w")
 
 # Definimos la escala (de 8 a 32, orientada horizontalmente)
 escala = tk.Scale(ventana, from_=8, to=32, orient="horizontal", label="Longitud")
 escala.set(12) # Valor por defecto
-escala.grid(row=5, column=0, pady=10, sticky="we")
+escala.grid(row=6, column=0, pady=10, sticky="we")
 
 #lambda sirve para usar una funcion con parametros
 
 # 4. Etiqueta para el resultado
 resultado = tk.Label(ventana, fg="blue")
-resultado.grid(row = 1, column = 1, pady = 10)
+resultado.grid(row = 2, column = 0, pady = 10)
 
 ventana.mainloop()
