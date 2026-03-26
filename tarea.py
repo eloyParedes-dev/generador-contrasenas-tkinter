@@ -25,9 +25,19 @@ def checkPassword():
     tiene_mayus = any(char.isupper() for char in password)
     tiene_minus = any(char.islower() for char in password)
     tiene_esp = any(not char.isalnum() for char in password)
+
+    secuencias = ["123", "abc", "qwerty", "password", "admin"]
+    es_secuencia = any(s in password.lower() for s in secuencias)
+
+    # Revisar si un caracter se repite más de 3 veces seguidas (ej: "aaaa")
+    es_repetitiva = any(password.count(char) > 3 for char in password)
     
     # 2. Lógica de niveles (Actualizamos res_texto en cada camino)
-    if size < 8:
+    # Priorizamos las advertencias de patrones simples
+    if es_secuencia or es_repetitiva:
+        res_texto = "Insegura"
+        resultado.config(text="Insegura (Patrón simple detectado)", fg="red")
+    elif size < 8:
         res_texto = "Débil"
         resultado.config(text="Débil (Muy corta)", fg="red")
     elif not tiene_numero:
